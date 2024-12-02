@@ -12,3 +12,7 @@ build:
 
 push:
 	docker push $(USERNAME)/rbfly:$(RBFLY_VER)-python$(PYTHON_VER)-bookworm-slim
+
+.PHONY = run
+run:
+	./run.sh bash

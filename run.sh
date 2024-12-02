@@ -21,5 +21,5 @@ while read line; do args+="--build-arg $line "; done <<<"$(cat .env |sed 's:#.*$
 docker run \
     --rm \
     $INTERACTIVE \
-    $(docker build -q $args .) \
+    $(docker build $args --output type=docker .) \
     "$@"

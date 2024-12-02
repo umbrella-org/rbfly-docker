@@ -16,7 +16,9 @@ FROM ghcr.io/astral-sh/uv:python${PYTHON_VER:-3.12}-bookworm-slim AS builder
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 
 ARG RBFLY_VER
+WORKDIR /app
 RUN uv pip install --system rbfly==${RBFLY_VER}
+# RUN uv venv && uv pip install rbfly
 
 # compile final image
 
@@ -28,6 +30,9 @@ ARG PYTHON_VER
 ARG DIR="/usr/local/lib/python${PYTHON_VER:-3.12}/site-packages/rbfly"
 COPY --from=builder ${DIR} ${DIR}
 COPY --from=builder ${DIR}-${RBFLY_VER}.dist-info ${DIR}-${RBFLY_VER}.dist-info
+COPY --from=builder /app /app
 
 # reset entrypoint from parent
 ENTRYPOINT []
+
+CMD ["bash"]
